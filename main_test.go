@@ -5,7 +5,7 @@ import (
 )
 
 func TestMain(t *testing.T) {
-	var compl = "tmp.json"
+	var compl = "ServiceReviewComplianceEvents.json"
 	path = &compl
 
 	main()
