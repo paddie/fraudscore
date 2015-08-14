@@ -16,8 +16,6 @@ var (
 func main() {
 	flag.Parse()
 
-	fmt.Println("Penis!")
-
 	if *path == "" {
 		log.Panic("a path to a service review compliance json dump is required")
 	}
@@ -37,7 +35,7 @@ func main() {
 	var fraudscores []FraudScoreClm
 
 	for _, c := range compliance {
-		done := false		
+		done := false
 		fraudscore := FraudScoreClm{
 			ReviewId: c.ReviewId.Id,
 		}
@@ -67,26 +65,26 @@ func main() {
 
 	fmt.Println(len(fraudscores))
 
-	file, err := os.Create("out.csv")	
+	file, err := os.Create("out.csv")
 	if err != nil {
 		log.Panic(err)
 	}
 	defer f.Close()
 
 	for _, fraudscore := range fraudscores {
-		file.WriteString(fmt.Sprintf("%s,%1.4f,%s\n", fraudscore.ReviewId, fraudscore.V2Score, fraudscore.Created))
+		file.WriteString(fmt.Sprintf("%s,%1.4f,%s,V2\n", fraudscore.ReviewId, fraudscore.V2Score, fraudscore.Created))
 	}
 }
 
 type FraudScoreClm struct {
-	ReviewId    string
-	V2Score     float64
-	Created RedshiftDate
+	ReviewId string
+	V2Score  float64
+	Created  RedshiftDate
 }
 
 type RedshiftDate time.Time
 
-func (d RedshiftDate) String() (string) {
+func (d RedshiftDate) String() string {
 	return fmt.Sprintf("%s", time.Time(d).Format("2006-01-02 15:04:05"))
 }
 
